@@ -53,7 +53,7 @@ export default function QuestionCard({ question }: Props) {
                     <h4>Congratulations you have the correct answer!</h4>
                 ) : (
                     <h4>You are incorrect. The correct answer is {question.answer}</h4>
-                ) : null };
+                ) : null}
             </Card.Body>
         </Card>
     )

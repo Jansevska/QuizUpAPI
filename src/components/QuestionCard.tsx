@@ -1,4 +1,7 @@
+import { useState } from 'react'
 import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+
 
 type QuestionType = {
     answer:string,
@@ -13,10 +16,17 @@ type Props = {
 }
 
 export default function QuestionCard({ question }: Props) {
+
+    const [showAnswer, setShowAnswer] = useState(false);
+
     return (
         <Card className='my-3'>
             <Card.Body>
                 <Card.Title>{ question.question }</Card.Title>
+                {showAnswer && <Card.Text>{question.answer}</Card.Text>}
+                <Button variant={showAnswer ? 'danger':'success'}onClick={() => setShowAnswer(!showAnswer)}>
+                    {showAnswer ? 'Hide Answer' : 'Reveal Answer'}
+                </Button>
             </Card.Body>
         </Card>
     )

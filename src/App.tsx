@@ -21,7 +21,7 @@ export default function App() {
   const logUserIn = (user:Partial<UserType>):void => {
     setIsLoggedIn(true);
     setLoggedInUser(user);
-    flashMessage(`${user.username} has been logged in`, 'success');
+    flashMessage(`${user.firstName} has been logged in`, 'success');
   }
 
   const logUserOut = ():void => {

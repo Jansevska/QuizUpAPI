@@ -10,7 +10,7 @@ export default function Home({loggedInUser}: HomeProps) {
 
     return (
         <>
-        { loggedInUser && <h1>Hello {loggedInUser.username}</h1> }
+        { loggedInUser && <h1>Hello {loggedInUser.firstName}</h1> }
         </>
     );
 }

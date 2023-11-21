@@ -2,11 +2,12 @@ import { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import UserType from '../types/auth'
 
 
 type QuestionType = {
     answer:string,
-    author:string,
+    author:UserType,
     created_on:string,
     id:number,
     question: string
@@ -41,10 +42,6 @@ export default function QuestionCard({ question }: Props) {
         <Card className='my-3'>
             <Card.Body>
                 <Card.Title>{ question.question }</Card.Title>
-                {/* {showAnswer && <Card.Text>{question.answer}</Card.Text>}
-                <Button variant={showAnswer ? 'danger':'success'}onClick={() => setShowAnswer(!showAnswer)}>
-                    {showAnswer ? 'Hide Answer' : 'Reveal Answer'}
-                </Button> */}
                 <Form onSubmit={handleFormSubmit}>
                     <Form.Control name='guess' placeholder='Enter Your Guess' value={guess} onChange={handleInputChange} />
                     <Button type='submit'>Check Guess</Button>

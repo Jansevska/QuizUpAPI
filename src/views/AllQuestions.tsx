@@ -1,24 +1,27 @@
 import { useState, useEffect } from 'react';
 import QuestionCard from '../components/QuestionCard';
+import QuestionType from '../types/question';
+import { getAllQuestions } from '../lib/apiWrapper';
 
-type QuestionType = {
-    answer:string,
-    author:string,
-    created_on:string,
-    id:number,
-    question: string
+
+
+type AllQuestionsProps = {
+
 }
 
-type Props = {}
-
-export default function AllQuestions({ }: Props) {
+export default function AllQuestions({ }: AllQuestionsProps) {
 
     const [questions, setQuestions] = useState<QuestionType[]>([])
 
     useEffect( () => {
-        fetch('https://cae-bookstore.herokuapp.com/question/all')
-        .then(res => res.json())
-        .then(data => setQuestions(data.questions))
+        async function fetchData(){
+            const response = await getAllQuestions();
+            if (response.data){
+                setQuestions(response.data);
+            }
+        };
+
+        fetchData()
     }, [])
 
     return (

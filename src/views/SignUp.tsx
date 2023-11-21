@@ -15,12 +15,10 @@ export default function SignUp({ logUserIn }: SignUpProps) {
 
     const [userFormData, setUserFormData] = useState<Partial<UserType>>(
         {
+            email: '',
             firstName: '',
             lastName: '',
-            email: '',
-            username: '',
             password: '',
-            confirmPassword: ''
         }
     )
 
@@ -33,13 +31,6 @@ export default function SignUp({ logUserIn }: SignUpProps) {
         logUserIn(userFormData);
         navigate('/');
     }
-
-    const validatePasswords = (password:string, confirmPassword:string):boolean => {
-        return password.length >= 5 && password === confirmPassword
-    }
-
-    const validatedForm = validatePasswords(userFormData.password!, userFormData.confirmPassword!)
-    console.log(validatedForm)
 
     return (
         <>
@@ -56,16 +47,10 @@ export default function SignUp({ logUserIn }: SignUpProps) {
                         <Form.Label htmlFor='email'>Email</Form.Label>
                         <Form.Control value={userFormData.email} name='email' type='email' onChange={handleInputChange}  />
 
-                        <Form.Label htmlFor='username'>Username</Form.Label>
-                        <Form.Control value={userFormData.username} name='username' onChange={handleInputChange} />
-
                         <Form.Label htmlFor='password'>Password</Form.Label>
                         <Form.Control value={userFormData.password} name='password' type='password' onChange={handleInputChange} />
 
-                        <Form.Label htmlFor='confirmPass'>Confirm Password</Form.Label>
-                        <Form.Control value={userFormData.confirmPassword} name='confirmPass' type='password' onChange={handleInputChange} />
-
-                        <Button type="submit" variant='outline-dark' className="w-100 mt-3" disabled={!validatedForm}>Sign Up</Button>
+                        <Button type="submit" variant='outline-dark' className="w-100 mt-3">Sign Up</Button>
                     </Form>
                 </Card.Body>
             </Card>

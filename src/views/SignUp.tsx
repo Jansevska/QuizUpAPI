@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import UserType from '../types/auth'
-import { createNewUser } from '../lib/apiWrapper'
+import { createNewUser, login } from '../lib/apiWrapper'
 import CategoryType from '../types/category'
 
 type SignUpProps = {
@@ -36,7 +36,10 @@ export default function SignUp({ logUserIn, flashMessage }: SignUpProps) {
             flashMessage(response.error, 'danger')
         } else {
             // const newUser = response.data!
-            logUserIn(response.data!);
+            const newUser = response.data!
+            const newUserTokenResponse = await login(userFormData.email!, userFormData.password!)
+            localStorage.setItem('token', newUserTokenResponse.data?.token!)
+            logUserIn(newUser);
             navigate('/');
         }
     }

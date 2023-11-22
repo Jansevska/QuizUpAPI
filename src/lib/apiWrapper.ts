@@ -25,14 +25,14 @@ const apiClientBasicAuth = (email:string, password:string) => axios.create(
     }
 )
 
-// const apiClientTokenAuth = (token:string) => axios.create(
-//     {
-//         baseURL: base,
-//         headers: {
-//             Authorization: 'Bearer ' + token
-//         }
-//     }
-// )
+const apiClientTokenAuth = (token:string) => axios.create(
+    {
+        baseURL: base,
+        headers: {
+            Authorization: 'Bearer ' + token
+        }
+    }
+)
 
 
 async function getAllQuestions(): Promise<APIResponse<QuestionType[]>> {
@@ -85,8 +85,26 @@ async function login(email:string, password:string): Promise<APIResponse<{token:
     return {data, error}
 }
 
+
+async function getMe(token:string): Promise<APIResponse<UserType>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientTokenAuth(token).get(userEndpoint + '/me')
+        data = response.data
+    } catch (err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return {data, error}
+}
+
 export {
     getAllQuestions,
     createNewUser,
     login,
+    getMe,
 }

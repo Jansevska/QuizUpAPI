@@ -14,6 +14,7 @@ export default function AllQuestions({ }: AllQuestionsProps) {
     const [questions, setQuestions] = useState<QuestionType[]>([])
 
     useEffect( () => {
+        // getAllQuestions().then(x => console.log(x))
         async function fetchData(){
             const response = await getAllQuestions();
             if (response.data){

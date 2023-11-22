@@ -2,12 +2,12 @@ import { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import UserType from '../types/auth'
+// import UserType from '../types/auth'
 
 
 type QuestionType = {
     answer:string,
-    author:UserType,
+    author:number,
     created_on:string,
     id:number,
     question: string
@@ -19,10 +19,9 @@ type Props = {
 
 export default function QuestionCard({ question }: Props) {
 
-    // const [showAnswer, setShowAnswer] = useState(false);
     const [guess, setGuess] = useState('');
     const [correct, setCorrect] = useState(false);
-    const [formSubitted, setFormSubmitted] = useState(false);
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setGuess(e.target.value);
@@ -46,7 +45,7 @@ export default function QuestionCard({ question }: Props) {
                     <Form.Control name='guess' placeholder='Enter Your Guess' value={guess} onChange={handleInputChange} />
                     <Button type='submit'>Check Guess</Button>
                 </Form>
-                { formSubitted ? correct ? (
+                { formSubmitted ? correct ? (
                     <h4>Congratulations you have the correct answer!</h4>
                 ) : (
                     <h4>You are incorrect. The correct answer is {question.answer}</h4>

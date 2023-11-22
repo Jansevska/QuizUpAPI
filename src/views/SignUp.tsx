@@ -4,16 +4,19 @@ import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import UserType from '../types/auth'
+import { createNewUser } from '../lib/apiWrapper'
+import CategoryType from '../types/category'
 
 type SignUpProps = {
-    logUserIn: (user:Partial<UserType>) => void
+    logUserIn: (user:UserType) => void
+    flashMessage: (message:string, category:CategoryType) => void
 }
 
-export default function SignUp({ logUserIn }: SignUpProps) {
+export default function SignUp({ logUserIn, flashMessage }: SignUpProps) {
 
     const navigate = useNavigate()
 
-    const [userFormData, setUserFormData] = useState<Partial<UserType>>(
+    const [userFormData, setUserFormData] = useState<UserType>(
         {
             email: '',
             firstName: '',
@@ -26,10 +29,16 @@ export default function SignUp({ logUserIn }: SignUpProps) {
         setUserFormData({...userFormData, [e.target.name]: e.target.value})
     }
 
-    const handleFormSubmit = (e: React.FormEvent): void => {
+    const handleFormSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault();
-        logUserIn(userFormData);
-        navigate('/');
+        const response = await createNewUser(userFormData);
+        if (response.error){
+            flashMessage(response.error, 'danger')
+        } else {
+            // const newUser = response.data!
+            logUserIn(response.data!);
+            navigate('/');
+        }
     }
 
     return (
@@ -38,14 +47,15 @@ export default function SignUp({ logUserIn }: SignUpProps) {
             <Card className='mt-3'>
                 <Card.Body>
                     <Form onSubmit={handleFormSubmit}>
+                        <Form.Label htmlFor='email'>Email</Form.Label>
+                        <Form.Control value={userFormData.email} name='email' type='email' onChange={handleInputChange}  />
+
                         <Form.Label htmlFor='firstName'>First Name</Form.Label>
                         <Form.Control value={userFormData.firstName} name='firstName' onChange={handleInputChange} />
 
                         <Form.Label htmlFor='lastName'>Last Name</Form.Label>
                         <Form.Control value={userFormData.lastName} name='lastName' onChange={handleInputChange}  />
 
-                        <Form.Label htmlFor='email'>Email</Form.Label>
-                        <Form.Control value={userFormData.email} name='email' type='email' onChange={handleInputChange}  />
 
                         <Form.Label htmlFor='password'>Password</Form.Label>
                         <Form.Control value={userFormData.password} name='password' type='password' onChange={handleInputChange} />

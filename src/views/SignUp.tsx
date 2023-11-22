@@ -8,7 +8,7 @@ import { createNewUser, login } from '../lib/apiWrapper'
 import CategoryType from '../types/category'
 
 type SignUpProps = {
-    logUserIn: (user:UserType) => void
+    logUserIn: (user:Partial<UserType>) => void
     flashMessage: (message:string, category:CategoryType) => void
 }
 
@@ -16,7 +16,7 @@ export default function SignUp({ logUserIn, flashMessage }: SignUpProps) {
 
     const navigate = useNavigate()
 
-    const [userFormData, setUserFormData] = useState<UserType>(
+    const [userFormData, setUserFormData] = useState<Partial<UserType>>(
         {
             email: '',
             firstName: '',
@@ -31,7 +31,7 @@ export default function SignUp({ logUserIn, flashMessage }: SignUpProps) {
 
     const handleFormSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault();
-        const response = await createNewUser(userFormData);
+        const response = await createNewUser(userFormData as UserType);
         if (response.error){
             flashMessage(response.error, 'danger')
         } else {

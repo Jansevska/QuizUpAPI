@@ -3,11 +3,11 @@ import UserType from "./auth"
 
 type QuestionType = {
     answer:string,
-    author:number,
+    author:UserType,
     created_on:string,
     id:number,
     question: string,
-    userId: UserType,
+    userId: number,
 }
 
 export default QuestionType

@@ -102,9 +102,79 @@ async function getMe(token:string): Promise<APIResponse<UserType>> {
     return {data, error}
 }
 
+async function createQuestion(token:string, questionFormData: Partial<QuestionType>): Promise<APIResponse<QuestionType>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientTokenAuth(token).post(questionEndpoint, questionFormData);
+        data = response.data;
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return {data, error}
+}
+
+async function getQuestion(questionId:string): Promise<APIResponse<QuestionType>> {
+    let data;
+    let error;
+    try {
+        const response = await apiClientNoAuth().get(questionEndpoint + '/' + questionId);
+        data = response.data;
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return {data, error}
+}
+
+
+async function editQuestion(token:string, questionId:string, editedQuestionData:QuestionType): Promise<APIResponse<QuestionType>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientTokenAuth(token).put(questionEndpoint + '/' + questionId, editedQuestionData);
+        data = response.data;
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return {data, error}
+}
+
+async function deleteQuestion(token:string, quetionId:string): Promise<APIResponse<{success:string}>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientTokenAuth(token).delete(questionEndpoint + '/' + quetionId);
+        data = response.data;
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return {data, error}
+}
+
+
 export {
     getAllQuestions,
     createNewUser,
     login,
     getMe,
+    createQuestion,
+    getQuestion,
+    editQuestion,
+    deleteQuestion,
 }
